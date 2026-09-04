@@ -1,247 +1,57 @@
-import { useState, useRef, useEffect } from 'react';
-import { Github, ExternalLink, Star, Code2, GitBranch } from 'lucide-react';
-import { projects, categories } from '../data/projects';
-import type { Project } from '../data/projects';
+"use client";
 
-const categoryColors: Record<string, { gradient: string; border: string; icon: string }> = {
-  finance: { gradient: 'from-emerald-600/20 to-teal-600/20', border: 'border-emerald-500/30', icon: 'text-emerald-400' },
-  'data-analytics': { gradient: 'from-amber-600/20 to-orange-600/20', border: 'border-amber-500/30', icon: 'text-amber-400' },
-  'machine-learning': { gradient: 'from-sky-600/20 to-cyan-600/20', border: 'border-sky-500/30', icon: 'text-sky-400' },
-  'web-dev': { gradient: 'from-rose-600/20 to-pink-600/20', border: 'border-rose-500/30', icon: 'text-rose-400' },
-  utility: { gradient: 'from-slate-600/20 to-slate-700/20', border: 'border-slate-500/30', icon: 'text-slate-400' },
-};
+import { useMemo, useState } from "react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+import type { GithubProject } from "@/lib/github";
 
-const langGradients: Record<string, string> = {
-  Python: 'from-blue-500 to-blue-600',
-  TypeScript: 'from-cyan-500 to-sky-600',
-  'C++': 'from-orange-500 to-red-600',
-  JavaScript: 'from-yellow-500 to-amber-600',
-  HTML: 'from-red-500 to-orange-600',
-  'Jupyter Notebook': 'from-purple-500 to-indigo-600',
-};
-
-function ProjectCard({ project, index, isVisible }: { project: Project; index: number; isVisible: boolean }) {
-  const catInfo = categoryColors[project.category] || categoryColors.utility;
-
-  return (
-    <div
-      className={`transform transition-all duration-700 h-full ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
-      style={{
-        transitionDelay: isVisible ? `${index * 60}ms` : '0ms',
-      }}
-    >
-      <div
-        className={`group relative h-full bg-gradient-to-br ${catInfo.gradient} border ${catInfo.border} rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:border-sky-400/60 hover:shadow-2xl hover:shadow-sky-500/15 hover:-translate-y-2 flex flex-col overflow-hidden`}
-      >
-        {/* Animated gradient overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-500/0 via-transparent to-cyan-500/0 group-hover:from-sky-500/5 group-hover:to-cyan-500/5 transition-all duration-300" />
-
-        <div className="relative z-10 flex flex-col h-full">
-          {/* Header section */}
-          <div className="flex items-start justify-between gap-3 mb-4">
-            <div className="flex-1">
-              {project.featured && (
-                <div className="inline-flex items-center gap-1.5 mb-3 px-3 py-1 bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-500/50 rounded-full backdrop-blur-sm">
-                  <Star size={13} className="text-amber-400 fill-amber-400" />
-                  <span className="text-amber-400 text-xs font-bold">Featured</span>
-                </div>
-              )}
-              <h3 className="text-white font-bold text-lg leading-tight group-hover:text-sky-300 transition-colors line-clamp-2">
-                {project.name}
-              </h3>
-            </div>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-2 text-slate-400 hover:text-sky-300 bg-white/5 hover:bg-sky-500/20 rounded-lg transition-all duration-200 hover:scale-110"
-                  aria-label="Live demo"
-                >
-                  <ExternalLink size={16} />
-                </a>
-              )}
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-200 hover:scale-110"
-                aria-label="GitHub repo"
-              >
-                <Github size={16} />
-              </a>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="text-slate-300 text-sm leading-relaxed flex-1 mb-4 line-clamp-3">{project.description}</p>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {project.tags.slice(0, 3).map(tag => (
-              <span key={tag} className="px-2.5 py-1 text-xs rounded-lg bg-slate-800/60 text-slate-300 border border-slate-700/40 font-medium hover:border-slate-600/70 transition-colors">
-                {tag}
-              </span>
-            ))}
-            {project.tags.length > 3 && (
-              <span className="px-2.5 py-1 text-xs rounded-lg text-slate-400 font-medium">+{project.tags.length - 3} more</span>
-            )}
-          </div>
-
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-700/30">
-            <div className="flex items-center gap-2">
-              {project.language && (
-                <div
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gradient-to-r ${langGradients[project.language] || 'from-slate-500 to-slate-600'} text-white text-xs font-semibold`}
-                >
-                  <Code2 size={12} />
-                  {project.language}
-                </div>
-              )}
-              {project.commits && (
-                <div className="flex items-center gap-1 px-3 py-1 rounded-lg bg-slate-700/40 text-slate-300 text-xs font-medium border border-slate-600/30">
-                  <GitBranch size={12} />
-                  {project.commits}
-                </div>
-              )}
-            </div>
-            <span className={`text-xs font-bold px-3 py-1 rounded-lg border ${catInfo.border} ${catInfo.icon}`}>
-              {categories.find(c => c.id === project.category)?.label ?? project.category}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+function relativeDate(value: string) {
+  const days = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 86_400_000));
+  if (days === 0) return "Today";
+  if (days < 30) return `${days}d ago`;
+  return new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(new Date(value));
 }
 
-export default function Projects() {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+const categories = ["All", "Agentic AI", "FinTech", "Data & ML", "Apps", "Other"] as const;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  const filtered = activeCategory === 'all' ? projects : projects.filter(p => p.category === activeCategory);
-
-  const categoryProjectCount = (catId: string) => {
-    if (catId === 'all') return projects.length;
-    return projects.filter(p => p.category === catId).length;
-  };
+export function Projects({ projects, error }: { projects: GithubProject[]; error: boolean }) {
+  const [category, setCategory] = useState<(typeof categories)[number]>("All");
+  const featured = useMemo(() => {
+    const explicit = projects.filter((project) => project.featured);
+    return (explicit.length ? explicit : projects).slice(0, 4);
+  }, [projects]);
+  const remaining = useMemo(() => {
+    const featuredIds = new Set(featured.map((project) => project.id));
+    const pool = projects.filter((project) => !featuredIds.has(project.id));
+    return category === "All" ? pool : pool.filter((project) => project.category === category);
+  }, [category, featured, projects]);
 
   return (
-    <section id="projects" ref={sectionRef} className="bg-[#0c1220] py-32 px-6 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-20 right-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl" />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div
-          className={`text-center mb-14 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <p className="text-sky-400 text-sm font-semibold uppercase tracking-widest mb-3">Portfolio</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Projects & Work</h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 rounded-full mx-auto mb-4" />
-          <p className="text-slate-400 max-w-2xl mx-auto text-base leading-relaxed">
-            Featured projects across quantitative finance, machine learning, data analytics, and full-stack software development.
-          </p>
-        </div>
-
-        {/* Category filter */}
-        <div
-          className={`flex flex-wrap justify-center gap-2 mb-14 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {categories.map((cat, idx) => {
-            const count = categoryProjectCount(cat.id);
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 transform hover:scale-105 ${
-                  activeCategory === cat.id
-                    ? 'bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-sky-500/30'
-                    : 'bg-slate-800/40 border border-slate-700/50 text-slate-300 hover:text-white hover:border-slate-600/70 hover:bg-slate-800/60'
-                }`}
-                style={{
-                  transitionDelay: isVisible ? `${idx * 50}ms` : '0ms',
-                }}
-              >
-                {cat.label}
-                <span
-                  className={`text-xs font-bold px-2 py-0.5 rounded-md ${
-                    activeCategory === cat.id ? 'bg-white/20' : 'bg-slate-700/50'
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered && filtered.length > 0 ? (
-            filtered.map((project, idx) => (
-              <ProjectCard key={project.id} project={project} index={idx} isVisible={isVisible} />
-            ))
-          ) : (
-            <div
-              className={`col-span-full text-center py-20 transition-all duration-700 ${
-                isVisible ? 'opacity-100' : 'opacity-50'
-              }`}
-            >
-              <p className="text-slate-500 text-base">No projects in this category.</p>
-            </div>
-          )}
-        </div>
-
-        {/* CTA */}
-        <div
-          className={`text-center mt-16 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: isVisible ? '200ms' : '0ms' }}
-        >
-          <a
-            href="https://github.com/kushalshah7"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-sky-500/20 to-cyan-500/20 border border-sky-500/50 hover:border-sky-400/80 text-sky-300 hover:text-sky-200 rounded-xl text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/20 hover:scale-105 hover:from-sky-500/30 hover:to-cyan-500/30"
-          >
-            <Github size={16} />
-            Explore All Projects on GitHub
-          </a>
-        </div>
+    <section className="work-section" id="work">
+      <div className="section-grid section-grid--heading">
+        <p className="section-index">02 / SELECTED SYSTEMS</p>
+        <div><h2>Selected<br />Systems</h2><p className="section-deck">Live work across intelligent software, data and markets.</p></div>
       </div>
+
+      {error ? <div className="github-offline"><span>GITHUB FEED / UNAVAILABLE</span><p>The live project index could not be reached. The page will retry on revalidation.</p></div> : <div className="featured-work">
+        {featured.map((project, index) => (
+          <a className="featured-row" href={project.htmlUrl} target="_blank" rel="noreferrer" key={project.id}>
+            <span className="featured-row__number">{String(index + 1).padStart(2, "0")}</span>
+            <div className="featured-row__title"><h3>{project.title}</h3><p>{project.description ?? `GitHub project${project.language ? ` · ${project.language}` : ""}`}</p></div>
+            <div className="featured-row__meta"><span>{project.category}</span>{project.language && <span>{project.language}</span>}<span>{relativeDate(project.pushedAt)}</span></div>
+            <ArrowUpRight className="featured-row__arrow" />
+            <div className="featured-row__reveal" aria-hidden="true"><i /><i /><i /><span>{project.name}</span></div>
+          </a>
+        ))}
+      </div>}
+
+      {!error && <div className="project-index">
+        <div className="project-index__head"><div><span className="live-dot" /> LIVE FROM GITHUB</div><p>{projects.length} public systems · synced every 10 minutes</p><label>Filter<span className="sr-only"> projects by category</span><select value={category} onChange={(event) => setCategory(event.target.value as typeof category)}>{categories.map((item) => <option key={item}>{item}</option>)}</select><ChevronDown size={14} /></label></div>
+        <div className="project-table" role="table" aria-label="All GitHub projects">
+          <div className="project-table__labels" role="row"><span>Project</span><span>Category</span><span>Language</span><span>Updated</span><span /></div>
+          {remaining.map((project) => <a href={project.htmlUrl} target="_blank" rel="noreferrer" className="project-table__row" role="row" key={project.id}><strong>{project.title}</strong><span>{project.category}</span><span>{project.language ?? "—"}</span><span>{relativeDate(project.pushedAt)}</span><ArrowUpRight size={17} /></a>)}
+        </div>
+        {!remaining.length && <p className="project-index__empty">No additional projects in this category yet.</p>}
+      </div>}
     </section>
   );
 }
