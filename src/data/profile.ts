@@ -5,7 +5,9 @@ export const profile = {
   github: "https://github.com/kushalshah7",
   githubUser: "kushalshah7",
   email: "#contact", // Replace with a public mailto: address.
-  linkedin: "#contact", // Replace with the public LinkedIn profile URL.
+  linkedin: "https://www.linkedin.com/in/kushalr7/",
+  phone: "tel:+917977289901",
+  studio: "https://helicoid.studio/",
   resume: "#contact", // Replace with /resume.pdf when uploaded.
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://kushalr7.tech",
   experience: [{ period: "2026 — Present", company: "Invecto Technologies Pvt. Ltd.", title: "Presales Technical Intern", details: ["Translate requirements into technical architectures", "Shape enterprise networking and security solutions", "Build internal tools with agentic AI workflows", "Support discovery, technical proposals and BoQs"] }],

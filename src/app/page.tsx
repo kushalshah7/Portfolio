@@ -1,2 +1,9 @@
-import {Home} from "@/components/home"; import {getGithubProjects} from "@/lib/github";
-export default async function Page(){const{projects,error}=await getGithubProjects();return <Home projects={projects} error={error}/>}
+import { Home } from "@/components/home";
+import { getGithubProjects } from "@/lib/github";
+
+export const revalidate = 600;
+
+export default async function Page() {
+  const feed = await getGithubProjects();
+  return <Home {...feed} />;
+}

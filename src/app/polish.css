@@ -1,0 +1,14 @@
+html:has(dialog[open]) { overflow:hidden; scrollbar-gutter:stable; }
+.workflow-section { padding-inline:0; }
+.contact-message .availability { display:flex; }
+.site-footer .back-top:hover { color:var(--rebuild-green); }
+.system-dialog .section-index { padding-right:24px; }
+@media(max-width:620px) {
+  .workflow-section { padding-top:72px; padding-bottom:72px; }
+  .workflow-section .section-grid--heading { margin-bottom:30px; }
+  .workflow-tabs { margin-top:28px; }
+  .workflow-panel { margin-top:22px; padding-top:24px; }
+  .contact-inner h2 { font-size:clamp(40px,11vw,57px); letter-spacing:-.06em; }
+  .contact-bottom .contact-message { display:block; }
+  .site-footer>a:first-child { min-height:44px; display:flex; align-items:center; }
+}
