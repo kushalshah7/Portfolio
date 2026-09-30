@@ -23,7 +23,7 @@ function AuditVisual() {
 
 function LumenVisual() {
   return <div className="project-visual lumen-visual" aria-label="Lumen's local photo development workspace structure">
-    <div className="project-visual__header"><span><Aperture size={15}/> LUMEN / PHOTO DEVELOPER</span><span>LOCAL PROCESSING</span></div>
+    <div className="project-visual__header"><span><Aperture size={15}/> LUMEN PHOTO AI</span><span>LOCAL PROCESSING</span></div>
     <div className="lumen-visual__workspace">
       <div className="lumen-visual__library"><small>LIBRARY</small><span>IMPORT</span><p>JPEG + RAW<br/>BATCH REVIEW<br/>EDIT HISTORY</p><i/><i/><i/></div>
       <div className="lumen-visual__viewer"><small>DEVELOP / BEFORE &amp; AFTER</small><div className="lumen-visual__aperture"><Aperture size={90} strokeWidth={.55}/><span>ORIGINAL</span><span>DEVELOPED</span></div><p>Natural development.<br/>Originals untouched.</p></div>
@@ -53,7 +53,7 @@ export function ProjectVisual({ project }: { project: GithubProject }) {
       ? [["01 / TRAIN", "Log", "SETS · REPS · WEIGHT"], ["02 / GROW", "Track", "PROGRESS · STREAKS"], ["03 / CONNECT", "Share", "ATHLETES · ACTIVITY"]]
       : [["01 / INSPECT", "Validate", "MARKET CANDLES"], ["02 / DISCOVER", "Research", "CAUSAL FEATURES"], ["03 / EVALUATE", "Stress-test", "COSTS · WALK-FORWARD"]];
     return <div className="project-visual workflow-visual" aria-label={fitness ? "Duo Levelling workout and athlete workflow" : "Intraday Research Lab validation and backtesting workflow"}>
-      <div className="project-visual__header"><span>{fitness ? <Dumbbell size={15}/> : <GitBranch size={15}/>} {fitness ? "DUO / CALISTHENICS" : "INTRADAY / RESEARCH LAB"}</span><span>{fitness ? "IN DEVELOPMENT" : "AWAITING MARKET DATA"}</span></div>
+      <div className="project-visual__header"><span>{fitness ? <Dumbbell size={15}/> : <GitBranch size={15}/>} {fitness ? "DUO LEVELLING" : "INTRADAY RESEARCH LAB"}</span><span>{fitness ? "IN DEVELOPMENT" : "AWAITING MARKET DATA"}</span></div>
       <div className="workflow-visual__heading"><small>{fitness ? "CONSISTENCY, TOGETHER" : "EVIDENCE BEFORE STRATEGY"}</small><h4>{fitness ? <>Your training.<br/>Your progress. Your people.</> : <>Test the hypothesis.<br/>Inspect the evidence.</>}</h4></div>
       <div className="workflow-visual__steps">{steps.map(([label, title, detail]) => <div key={label}><small>{label}</small><strong>{title}</strong><span>{detail}</span></div>)}</div>
       <div className="project-visual__footer"><span>{fitness ? "WORKOUT TEMPLATES / ATHLETE PROFILES / SOCIAL FEED" : "DATA QUALITY / FROZEN RULES / EXECUTION REALISM"}</span><span>{fitness ? "TYPESCRIPT" : "PYTHON"}</span></div>
