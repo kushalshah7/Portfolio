@@ -2,7 +2,7 @@ import type { GithubProject, ProjectCategory } from "./github";
 
 export const categories = ["All", "Agentic AI", "FinTech", "Data & ML", "Apps", "Other"] as const;
 export type CategoryFilter = "All" | ProjectCategory;
-export const curatedProjects = ["AI-Audit-Analytics-IT-Controls", "Lumen---AI-Photo-Editor", "BBHA-BackTesting"];
+export const curatedProjects = ["Duo-Levelling", "Lumen---AI-Photo-Editor", "algo1"];
 
 export function featuredProjects(projects: GithubProject[]) {
   const rank = (name: string) => {

@@ -2,6 +2,10 @@ node_modules/
 .next/
 .vercel/
 .env*
+
+.release/
+.codex/
+*.tsbuildinfo
 !.env.example
 *.log
 .DS_Store

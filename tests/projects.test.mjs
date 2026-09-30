@@ -34,8 +34,8 @@ const ids = value => Array.from(value, item => item.id);
 test("featured projects use curation, with an explicit GitHub override", () => {
   const items = [
     project(1, "latest", "Apps", "2026-09-22T00:00:00Z"),
-    project(2, "BBHA-BackTesting"), project(3, "Lumen---AI-Photo-Editor"),
-    project(4, "AI-Audit-Analytics-IT-Controls"),
+    project(2, "algo1"), project(3, "Lumen---AI-Photo-Editor"),
+    project(4, "Duo-Levelling"), project(5, "AI-Audit-Analytics-IT-Controls"), project(6, "BBHA-BackTesting"),
   ];
   assert.deepEqual(ids(catalog.featuredProjects(items)), [4, 3, 2]);
   items[0].featured = true;
@@ -68,7 +68,11 @@ test("GitHub follows pagination, deduplicates and excludes hidden repositories",
   const feed = await api.getGithubProjects();
   assert.equal(calls.length, 2);
   assert.match(calls[1], /page=2$/);
-  assert.deepEqual(ids(feed.projects), [5, 1]);
+  assert.deepEqual(ids(feed.projects), [5, 1, -7]);
+  const privateSpotlight = feed.projects.find(item => item.name === "algo1");
+  assert.equal(privateSpotlight.title, "Intraday Research Lab");
+  assert.equal(privateSpotlight.htmlUrl, "");
+  assert.equal(privateSpotlight.private, true);
   assert.equal(feed.status, "github");
   assert.equal(feed.fetchedAt, "2026-09-22T10:00:00.000Z");
 });
@@ -79,7 +83,7 @@ test("rate limits and network errors are explicitly labeled fallback", async () 
     assert.equal(feed.status, "fallback");
     assert.equal(feed.fetchedAt, null);
     assert.ok(feed.projects.some(item => item.name === "AI-Audit-Analytics-IT-Controls"));
-    assert.equal(catalog.featuredProjects(feed.projects)[0].name, "AI-Audit-Analytics-IT-Controls");
+    assert.deepEqual(Array.from(catalog.featuredProjects(feed.projects), item => item.name), ["Duo-Levelling", "Lumen---AI-Photo-Editor", "algo1"]);
   }
 });
 

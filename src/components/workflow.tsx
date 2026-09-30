@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { useOrchestration } from "./orchestration";
+import { useOrchestration } from "./cinematic-environment";
 
 const steps = [
   { name: "CONTEXT", node: 0, title: "Understand before acting.", copy: "Give the system a clear problem, useful knowledge and a definition of done.", tools: "AGENTS.md · prompt.md · scoped knowledge · requirements" },
@@ -15,9 +15,9 @@ export function Workflow() {
   const { stage, setStage, activate } = useOrchestration();
   const choose = (index:number) => { setStage(index); activate({node:steps[index].node}); };
   return <section className="editorial-section workflow-section" id="process" aria-labelledby="workflow-heading">
-    <div className="section-grid section-grid--heading"><p className="section-index">04 / AGENTIC WORKFLOW</p><div><h2 id="workflow-heading">From context<br/><span>to shipped system.</span></h2><p className="section-deck">One connected workflow. Human judgment at every boundary.</p></div></div>
+    <div className="section-grid section-grid--heading" data-reveal="up"><p className="section-index">04 / AGENTIC WORKFLOW</p><div><h2 id="workflow-heading">From context<br/><span>to shipped system.</span></h2><p className="section-deck">One connected workflow. Human judgment at every boundary.</p></div></div>
     <div className="workflow-interface">
-      <div className="workflow-tabs" role="tablist" aria-label="Agentic workflow stages" onMouseLeave={()=>activate(null)} onKeyDown={e=>{
+      <div className="workflow-tabs" style={{ "--stage": stage } as React.CSSProperties} role="tablist" aria-label="Agentic workflow stages" onMouseLeave={()=>activate(null)} onKeyDown={e=>{
         let next=stage;
         if(e.key==="ArrowRight"||e.key==="ArrowDown")next=(stage+1)%5;
         else if(e.key==="ArrowLeft"||e.key==="ArrowUp")next=(stage+4)%5;

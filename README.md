@@ -21,7 +21,7 @@ Editable profile, experience, stack and contact data live in `src/data/profile.t
 
 Public, owned repositories from `github.com/kushalshah7` are fetched server-side with pagination and a 10-minute revalidation interval. New or newly pushed public repositories appear without portfolio code changes. Forks, archived repositories and repositories tagged `portfolio-hide` are excluded.
 
-Three featured projects are curated in `src/lib/project-catalog.ts`. Add the `portfolio-featured` topic to override that ordering. The searchable collection includes featured projects and sorts all results by latest push. Editorial summaries and project details live in `src/data/project-stories.ts`; review these against repository documentation when capabilities change.
+Three featured projects are curated in `src/lib/project-catalog.ts`: Duo Levelling, Lumen Photo AI and Intraday Research Lab (algo1). Add the `portfolio-featured` topic to override that ordering. The other public projects render only after selecting Show all projects; featured projects are excluded from this searchable collection. algo1 has a manually curated overview with private source code and no public source link. Editorial summaries and project details live in `src/data/project-stories.ts`; review these against repository documentation when capabilities change.
 
 When GitHub fails, saved highlights remain available with an explicit fallback notice. The page never labels them as live activity. Successful feed timestamps come from GitHub response dates, including cached responses; a missing date is not replaced with the current time.
 
@@ -29,7 +29,7 @@ Supported category topics include `agentic-ai`, `fintech`, `data`, `machine-lear
 
 ## Design and motion
 
-Shared black-and-lime tokens live in `src/app/base.css`. The hero combines a lightweight canvas field with ambient CSS gradients. Its motion toggle pauses both; reduced-motion preferences disable animation, and background tabs pause rendering. Mobile devices use fewer particles and a lower frame rate.
+Active styling lives in `src/app/cinematic.css`. The backdrop combines a city image with ambient CSS gradients and an 8-second pan. Intersection observers drive navigation, project panels and reveals without per-scroll layout scans. Motion uses transforms and opacity; the pointer glow moves a prepainted gradient. The motion toggle and reduced-motion preferences stop ambient animations, and hidden tabs pause them. Mobile devices omit the pointer glow and scan layer. Directional icons use thin SVG strokes instead of platform-dependent text arrows.
 
 Project highlights use typography and documented capabilities. Replace these with authentic interface screenshots if suitable assets become available.
 

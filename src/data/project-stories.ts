@@ -1,8 +1,27 @@
 // Editorial enrichment only. Repository membership, links and refreshes stay GitHub-driven.
-// Sources: public repository READMEs (Lumen: photo-ai/README.md).
-// Featured project descriptions reviewed 2026-09-22; outcomes are not impact claims.
+// Sources: repository READMEs (Lumen: photo-ai/README.md) and Duo's current-state docs.
+// algo1 is a manually curated overview; its source remains private.
+// Featured project descriptions reviewed 2026-09-30; outcomes are not impact claims.
 export type ProjectStory = { title: string; category: string; summary: string; kind: "image" | "market" | "triage" | "engine"; tools: string[]; status: string; problem: string; system: string; outcome: string; flow: string[] };
 export const projectStories: Record<string, ProjectStory> = {
+  "Duo-Levelling": {
+    title: "Duo Levelling", category: "FITNESS / SOCIAL", kind: "engine", status: "APPLICATION / IN DEVELOPMENT",
+    summary: "Build strength, track consistency and grow together. A social training space for calisthenics athletes.",
+    tools: ["TypeScript", "Next.js", "Supabase"],
+    problem: "Workout records, personal progress and training connections need a shared home that fits calisthenics.",
+    system: "Workout logging and reusable templates connect to athlete profiles, session-based streaks, following and a feed-first dashboard.",
+    outcome: "Log sets, reps and weight, reuse workout templates and follow other athletes. Duels are planned; authenticated deployment checks remain pending.",
+    flow: ["Log a workout", "Track progress", "Connect with athletes"],
+  },
+  "algo1": {
+    title: "Intraday Research Lab", category: "FINTECH / RESEARCH", kind: "market", status: "RESEARCH FRAMEWORK / AWAITING DATA",
+    summary: "From market candles to testable hypotheses. Evidence-first intraday research with execution costs and validation built in.",
+    tools: ["Python", "Pandas", "Parquet", "Backtesting"],
+    problem: "Trading hypotheses need clean data, causal features and realistic execution assumptions before their results can be trusted.",
+    system: "A staged pipeline inspects market data, builds causal features, discovers candidate setups and evaluates frozen rules with cost-aware backtests and walk-forward checks.",
+    outcome: "A reproducible research framework with quality reports and experiment records. Actual market data is pending; no final strategy or live trading is claimed. Source code is private.",
+    flow: ["Validate candles", "Research setups", "Stress-test execution"],
+  },
   "AI-Audit-Analytics-IT-Controls": {
     title: "Audit Analytics", category: "DATA / ASSURANCE", kind: "triage", status: "EDUCATIONAL SIMULATION",
     summary: "From financial records to traceable evidence. A reproducible engine for audit analytics and IT controls testing.",

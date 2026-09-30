@@ -1,0 +1,7 @@
+.release/
+.codex/
+qa/
+tests/
+new.md
+*.tsbuildinfo
+.env*

@@ -2,6 +2,11 @@ export const profile = {
   name: "Kushal Shah",
   role: "AI Developer · Agentic Systems · Data · FinTech",
   intro: "I design and ship data-driven applications, automation systems and fintech tools using agentic AI workflows, structured context and modern software engineering.",
+  aboutHeading: "I work where software engineering, AI agents, data and financial systems meet.",
+  aboutNotes: [
+    "I use AI-assisted engineering to move from a precise problem definition to working software — with architecture, testing and review built into the process.",
+    "My work spans agentic workflows, data and ML applications, market systems, APIs and enterprise technical discovery. The common thread: making complex systems useful."
+  ],
   github: "https://github.com/kushalshah7",
   githubUser: "kushalshah7",
   email: "#contact", // Replace with a public mailto: address.

@@ -1,12 +1,17 @@
 import { profile } from "@/data/profile";
 
 export type ProjectCategory = "Agentic AI" | "FinTech" | "Data & ML" | "Apps" | "Other";
-export type GithubProject = { id: number; name: string; title: string; description: string | null; htmlUrl: string; homepage: string | null; language: string | null; topics: string[]; stars: number; forks: number; pushedAt: string; size: number; category: ProjectCategory; featured: boolean };
+export type GithubProject = { id: number; name: string; title: string; description: string | null; htmlUrl: string; homepage: string | null; language: string | null; topics: string[]; stars: number; forks: number; pushedAt: string; size: number; category: ProjectCategory; featured: boolean; private?: boolean };
 export type GithubFeed = { projects: GithubProject[]; status: "github" | "fallback"; fetchedAt: string | null };
 
 type GithubRepo = { id:number; name:string; description:string|null; html_url:string; homepage:string|null; language:string|null; topics:string[]; stargazers_count:number; forks_count:number; pushed_at:string; size:number; fork:boolean; archived:boolean };
 
+// A manually curated portfolio summary; private source code is never fetched or linked.
+const intradayLab: GithubProject = { id: -7, name: "algo1", title: "Intraday Research Lab", description: "An evidence-first framework for Indian equity strategy research, data validation and cost-aware backtesting.", htmlUrl: "", homepage: null, language: "Python", topics: ["fintech"], stars: 0, forks: 0, pushedAt: "1970-01-01T00:00:00Z", size: 0, category: "FinTech", featured: false, private: true };
+
 const fallbackProjects: GithubProject[] = [
+  { id: -6, name: "Duo-Levelling", title: "Duo Levelling", description: "A calisthenics app for workout logging, athlete profiles, progress and a social activity feed.", htmlUrl: `${profile.github}/Duo-Levelling`, homepage: null, language: "TypeScript", topics: ["web-app"], stars: 0, forks: 0, pushedAt: "2026-05-28T09:51:57Z", size: 1, category: "Apps", featured: false },
+  intradayLab,
   { id: -5, name: "AI-Audit-Analytics-IT-Controls", title: "Audit Analytics", description: "A reproducible audit analytics and IT controls simulation with traceable evidence and human review.", htmlUrl: `${profile.github}/AI-Audit-Analytics-IT-Controls`, homepage: null, language: "Python", topics: ["data"], stars: 0, forks: 0, pushedAt: "2026-09-21T10:46:55Z", size: 1, category: "Data & ML", featured: false },
   { id: -1, name: "Lumen---AI-Photo-Editor", title: "Lumen Photo AI", description: "A non-destructive photo developer with measured adjustments, full creative control and untouched originals.", htmlUrl: `${profile.github}/Lumen---AI-Photo-Editor`, homepage: null, language: "Python", topics: ["ai-photo-editor"], stars: 0, forks: 0, pushedAt: "2026-08-31T07:26:06Z", size: 1, category: "Agentic AI", featured: false },
   { id: -2, name: "BBHA-BackTesting", title: "BBHA Backtesting", description: "A trading-strategy study that includes execution costs, liquidity and capital constraints.", htmlUrl: `${profile.github}/BBHA-BackTesting`, homepage: null, language: "Python", topics: ["backtesting"], stars: 0, forks: 0, pushedAt: "2026-09-02T12:28:01Z", size: 1, category: "FinTech", featured: false },
@@ -52,7 +57,10 @@ export async function getGithubProjects(): Promise<GithubFeed> {
     const visible = repos.filter(r => !r.fork && !r.archived && !r.topics.includes("portfolio-hide"));
     const unique = [...new Map(visible.map(repo => [repo.id, repo])).values()];
     unique.sort((a, b) => Date.parse(b.pushed_at) - Date.parse(a.pushed_at));
-    return { projects: unique.map(r => ({ id:r.id, name:r.name, title:titleCase(r.name), description:r.description, htmlUrl:r.html_url, homepage:r.homepage || null, language:r.language, topics:r.topics, stars:r.stargazers_count, forks:r.forks_count, pushedAt:r.pushed_at, size:r.size, category:category(r), featured:r.topics.includes("portfolio-featured") })), status: "github", fetchedAt };
+    const projects: GithubProject[] = unique.map(r => ({ id:r.id, name:r.name, title:titleCase(r.name), description:r.description, htmlUrl:r.html_url, homepage:r.homepage || null, language:r.language, topics:r.topics, stars:r.stargazers_count, forks:r.forks_count, pushedAt:r.pushed_at, size:r.size, category:category(r), featured:r.topics.includes("portfolio-featured") }));
+    // Keep an empty successful feed empty; add the requested private spotlight to a populated feed.
+    if (projects.length && !projects.some(project => project.name === intradayLab.name)) projects.push(intradayLab);
+    return { projects, status: "github", fetchedAt };
   } catch {
     return { projects: fallbackProjects, status: "fallback", fetchedAt: null };
   }
