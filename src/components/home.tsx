@@ -7,6 +7,7 @@ import { Orchestration } from "./cinematic-environment";
 import { Hero } from "./cinematic-hero";
 import { IdentityPanel } from "./identity-panel";
 import { Stack } from "./stack";
+import { PageEntry } from "./page-entry";
 
 export function Home({ projects, status, fetchedAt }: GithubFeed) {
   const jsonLd = { "@context": "https://schema.org", "@type": "Person", name: profile.name, url: profile.siteUrl, telephone: "+917977289901", sameAs: [profile.github, profile.linkedin, profile.studio], jobTitle: "AI Developer", knowsAbout: ["Agentic AI", "Data Engineering", "FinTech", "Software Development"] };
@@ -16,10 +17,12 @@ export function Home({ projects, status, fetchedAt }: GithubFeed) {
     { label: "Helicoid Studio", href: profile.studio, external: true },
   ];
   return <Orchestration>
-    <a className="skip-link" href="#top">Skip to content</a>
+    <PageEntry/>
+    <div className="page-top" id="top" aria-hidden="true"/>
+    <a className="skip-link" href="#main-content">Skip to content</a>
     <Nav />
     <IdentityPanel />
-    <main id="top" tabIndex={-1}>
+    <main id="main-content" tabIndex={-1}>
       <Hero />
       <Projects projects={projects} status={status} fetchedAt={fetchedAt}/>
       <section className="editorial-section experience-section" id="experience" aria-labelledby="experience-heading">

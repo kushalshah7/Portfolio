@@ -1,0 +1,25 @@
+.signal-space { position: absolute; inset: 0; perspective: 750px; perspective-origin: 60% 38%; }
+.signal-floor { position: absolute; top: 42%; left: -45%; width: 190%; height: 125%; transform: rotateX(68deg); transform-origin: center top; background-image: linear-gradient(rgba(84,203,213,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(84,203,213,.14) 1px,transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(transparent,#000 20%,#000 60%,transparent); animation: signal-floor 3s linear infinite; will-change: transform; }
+.signal-cube { position: absolute; width: 180px; height: 180px; transform-style: preserve-3d; animation: signal-cube 12s linear infinite; will-change: transform; color: rgba(84,203,213,.42); }
+.signal-cube--0 { left: 64%; top: 18%; }
+.signal-cube--1 { left: 8%; top: 58%; animation-duration: 15s; animation-delay: -5s; color: rgba(231,98,120,.35); }
+.signal-cube--2 { left: 84%; top: 66%; animation-duration: 10s; animation-delay: -8s; }
+.signal-cube__face { position: absolute; inset: 0; border: 1px solid currentColor; background: linear-gradient(135deg,rgba(84,203,213,.025),transparent); backface-visibility: visible; }
+.signal-cube__face--front { transform: translateZ(90px); }
+.signal-cube__face--back { transform: rotateY(180deg) translateZ(90px); }
+.signal-cube__face--left { transform: rotateY(-90deg) translateZ(90px); }
+.signal-cube__face--right { transform: rotateY(90deg) translateZ(90px); }
+.signal-cube__face--top { transform: rotateX(90deg) translateZ(90px); }
+.signal-cube__face--bottom { transform: rotateX(-90deg) translateZ(90px); }
+@keyframes signal-floor { from { transform: rotateX(68deg) translateY(-80px); } to { transform: rotateX(68deg) translateY(0); } }
+@keyframes signal-cube { 0% { transform: translate3d(0,0,-120px) rotateX(18deg) rotateY(0deg); } 50% { transform: translate3d(-45px,-30px,-20px) rotateX(38deg) rotateY(180deg); } 100% { transform: translate3d(0,0,-120px) rotateX(18deg) rotateY(360deg); } }
+.signal-field { background: radial-gradient(ellipse at 70% 40%,#07121a 0%,#04070d 48%,#020307 90%); }
+.signal-glow--cyan { opacity: .6; }
+.signal-glow--red { opacity: .65; }
+.signal-traces { opacity: .58; }
+.identity-panel, .project-panel, .repository-card, .hero-system { background: linear-gradient(145deg,rgba(24,34,43,.68),rgba(8,13,20,.72)); backdrop-filter: blur(8px) saturate(1.12); border-color: rgba(220,240,245,.2); }
+.featured-scene__image { background: rgba(7,13,22,.36); backdrop-filter: blur(6px); }
+.project-visual, .workflow-visual, .lumen-visual, .audit-visual, .backtest-visual { background: linear-gradient(135deg,rgba(13,27,37,.7),rgba(8,14,24,.46)); }
+.work-section::before, .experience-section::before, .stack-section::before, .contact-section::before { content: ""; position: absolute; z-index: -1; inset: 24px -18px; border: 1px solid rgba(222,241,245,.12); border-radius: 24px; background: linear-gradient(140deg,rgba(22,33,43,.38),rgba(6,10,16,.24)); backdrop-filter: blur(3px); box-shadow: inset 0 1px rgba(255,255,255,.045),0 20px 60px rgba(0,0,0,.14); pointer-events: none; }
+.contact-section { position: relative; }
+@media (max-width: 880px) { .signal-space { perspective: 600px; } .signal-cube--0 { left: 55%; top: 13%; } .signal-cube--2 { left: 68%; } .work-section::before, .experience-section::before, .stack-section::before, .contact-section::before { inset-inline: -10px; } }

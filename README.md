@@ -29,7 +29,7 @@ Supported category topics include `agentic-ai`, `fintech`, `data`, `machine-lear
 
 ## Design and motion
 
-Active styling lives in `src/app/cinematic.css`. The backdrop combines a city image with ambient CSS gradients and an 8-second pan. Intersection observers drive navigation, project panels and reveals without per-scroll layout scans. Motion uses transforms and opacity; the pointer glow moves a prepainted gradient. The motion toggle and reduced-motion preferences stop ambient animations, and hidden tabs pause them. Mobile devices omit the pointer glow and scan layer. Directional icons use thin SVG strokes instead of platform-dependent text arrows.
+Active styling lives in `src/app/cinematic.css`. The backdrop is original SVG network artwork with blue/red signal trails looping every 3.2–4.1 seconds, moving light fields and a sweeping glow. It requires no background image or video download. Intersection observers drive navigation, project panels and reveals without per-scroll layout scans. The motion toggle and reduced-motion preferences stop ambient animations, and hidden tabs pause them. Mobile devices omit the pointer glow. Directional icons use thin SVG strokes instead of platform-dependent text arrows. Home and back-to-top links target the actual document start, above the mobile profile card; fresh visits and refreshes start there, while section links and history navigation remain usable.
 
 Project highlights use typography and documented capabilities. Replace these with authentic interface screenshots if suitable assets become available.
 

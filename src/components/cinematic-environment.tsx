@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { observeViewportBand } from "@/lib/viewport-observer";
+import { SignalBackground } from "./signal-background";
 
 type Signal = { node: number; project?: string; x?: number; y?: number } | null;
 type Controls = {
@@ -42,6 +42,7 @@ export function Orchestration({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section[id]"));
+    const identity = document.querySelector<HTMLElement>(".identity-panel");
     const revealTargets = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -53,9 +54,9 @@ export function Orchestration({ children }: { children: ReactNode }) {
     }, { threshold: 0.12, rootMargin: "0px 0px -5% 0px" });
     revealTargets.forEach(target => revealObserver.observe(target));
 
-    const stopSectionObserver = observeViewportBand(sections, entries => {
+    const stopSectionObserver = observeViewportBand(identity ? [identity, ...sections] : sections, entries => {
       for (const entry of entries) {
-        if (entry.isIntersecting) setSection(entry.target.id);
+        if (entry.isIntersecting) setSection(entry.target.id || "hero");
       }
     }, .4, .55);
     return () => {
@@ -96,11 +97,8 @@ export function Orchestration({ children }: { children: ReactNode }) {
 
   return <FieldContext.Provider value={controls}>
     <div className="environment-shell" ref={environment} data-section={section} data-signal="off" aria-hidden="true">
-      <div className="environment-image-wrap"><Image src="/media/atmosphere-city.png" alt="" fill sizes="100vw" quality={75} loading="eager" fetchPriority="high" className="environment-image"/></div>
+      <SignalBackground/>
       <div className="environment-veil"/>
-      <div className="environment-aurora environment-aurora--blue"/>
-      <div className="environment-aurora environment-aurora--red"/>
-      <div className="environment-scan"/>
       <div className="environment-pointer" ref={pointer}/>
       <div className="environment-signal"/>
     </div>
